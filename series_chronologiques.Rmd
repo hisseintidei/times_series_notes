@@ -1,0 +1,15 @@
+---
+title: "Note de synthèse sur les Series Chronologiques"
+output: 
+  pdf_document: 
+    toc: yes
+    highlight: monochrome
+  Keep_md: True
+date: "2023-05-06"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Concepts de Base
