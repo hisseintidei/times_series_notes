@@ -1,10 +1,17 @@
 ---
 title: "Note de synthèse sur les Series Chronologiques"
-output: 
-  pdf_document: 
-    toc: yes
-    highlight: monochrome
-  Keep_md: True
+author: Hissein Tidei^[[Twitter](https://twitter.com/HisseinTidei)]
+twitter: 
+  username: Hissein_Tidei
+  site: twitter
+output:
+  # github_document: default
+  pdf_document: default
+  toc: yes
+  highlight: monochrome
+  fig_caption: yes
+  number_sections: yes
+  #md_document: default
 date: "2023-05-06"
 ---
 
@@ -13,3 +20,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Concepts de Base
+> **Qu'est ce qu'une série chronologique ou Time Series (TS)?**
+
+ C'est une suite finie des observations effectuer à un intervalle régulier au cours du temps. Dite aussi série temporelles, elle se matérialise économiquement par l'observation des grandeurs telles que: IPC, PNB, PIB, etc.
+ 
+> La notion de processus stationnaire au sens large (SSL):
+
+un processus est $X_t$ est SSL si, et seulement si: 
+1. $\mathbb{E}(X_t)$ 
