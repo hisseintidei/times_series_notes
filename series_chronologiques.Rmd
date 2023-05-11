@@ -74,7 +74,7 @@ Attention : si $X_t\rightsquigarrow BB\left(0,\sigma^2\right)$ $\longrightarrow$
 ### Un MA(q=1):
  
  
-$MA(1)$ est un processus tel $X_t$, tel que : 
+$MA(1)$ est un processus $X_t$, tel que : 
   
 \begin{equation}
 X_t= \mu + a_t + \theta a_{t-1}    
@@ -82,10 +82,11 @@ X_t= \mu + a_t + \theta a_{t-1}
 
 où: 
 
-\begin{equation}
+\begin{align}
  a_t\rightsquigarrow BB\left(0,\sigma^2\right) \; et \;
-   \theta \in \mathbb{R}
-\end{equation}
+   \theta \in \mathbb{R}\\
+  \Longrightarrow  \mathbb{E}\left(a_t\right)= 0  \; \forall t, \; Var\left(a_t\right)=\sigma^2, \; Cov\left(a_t, a_{t+k}\right)= \sigma^2\mu \; \Leftrightarrow \; \lbrace k=0\rbrace
+\end{align}
 
 avec comme: 
  
@@ -100,3 +101,68 @@ avec comme:
     \end{array}
 \right.
 \end{align}
+
+Ainsi, tout processus   $MA(1)$ \textcolor{red}{est un SSL}. Et la fonction d'auto-corrélation (\textcolor{red}{FAC}) pour un $MA(1)$ est telle que: 
+
+\begin{equation}
+FAC= \rho\left(k\right)= Cov\left(X_t, Xt+k \right)= \left\{
+    \begin{array}{ll}
+     1 & \mbox{si } k =O \\
+        \frac{\theta}{1+\theta}  & \mbox{si } K=1\\
+        0 & \mbox{si } k\geqslant2
+    \end{array}
+\right. 
+\end{equation}
+
+
+### Un MA(q=2): 
+
+Pour un tel processus la forme est la suivante: 
+
+\begin{align}
+X_t= \mu + a_t + \theta_{2}a_{t-1} + \theta_{2}a_{t-2}  \\
+ \intertext{où encore}
+  a_t\rightsquigarrow BB\left(0,\sigma^2\right) \; et \;
+   \lbrace \theta_2 ,\theta_1 \rbrace \in \mathbb{R} \\
+ \mathbb{E}\left(X_t\right)=\mu \\
+ Var\left(X_t\right)=\left(1+\Sigma^{2}_{j=1}\theta^{2}_{j} \right)  \sigma^2 \; si \; 1\leqslant k\leqslant2 \\
+\gamma\left( k \right) = \left\{
+    \begin{array}{ll}
+        \left(\theta_k + \Sigma^{2-k}_{j=1}\theta_j\theta_{k+j}\right)\sigma^2 &  \mbox{si }  1\leqslant k\leqslant2 \\
+        0 & \mbox{si } k > 2
+    \end{array}
+\right.
+\end{align}
+
+De même tout processus   $MA(2)$ \textcolor{red}{est un SSL} et le FAC s'annule lorsque $k>2$. 
+
+### Un MA(q):
+
+Pour tout $q>2$, une série $X_t $ MA(q) écrit comme suit:
+
+\begin{align}   \label{eqmaq}
+X_t   &= \mu + a_t + \theta_{2}a_{t-1} + \theta_{2}a_{t-2} + \dots +\theta_q a_{t-q}\\
+      &= \mu + a_t +\Sigma^{Q}_{j=1} \theta_{j}a_{t-j}
+ \intertext{où encore}
+  a_t\rightsquigarrow BB\left(0,\sigma^2\right) \; et \;
+    \theta_j \in \mathbb{R}  \\
+   \intertext{et} 
+ \mathbb{E}\left(X_t\right)=\mu \\
+ Var\left(X_t\right)=\left(1+\Sigma^{q}_{j=1}\theta^{2}_{j} \right)  \sigma^2 \ \\
+\gamma\left( k \right) = \left\{
+    \begin{array}{ll}
+        \left(\theta_k + \Sigma^{q-k}_{j=1}\theta_j\theta_{k+j}\right)\sigma^2 &  \mbox{si }  1\leqslant k\leqslant q \\
+        0 & \mbox{si } k > q  \label{eqmaq}
+    \end{array}
+\right.
+\end{align}
+
+### Sur le Plan pratique: 
+
+En générale, la modélisation d'une série chronologique des données réelles, comprise comme obéissant un processus à moyen mobile, pour comprendre et faire de la prévision requière la compréhension de la structure de ces données. En effet, une telle compréhension passe par la détermination de l'ordre $q$, indiquant le $k$ à partir duquel l'auto-corrélation entre les différentes périodes ou temps de la série univariée s'estompe ^[Comme en \eqref{eqmaq}, pour un $k>q$, la covariance ou, peu importe ici, l'auto-corrélation au sein de la série s'annule, c-à-d qu'il n'y a plus de lien en moyen mobile depassé k temps ou période entre deux plusieurs observations d'une série temporelle.]; en d'autre terme le $q$ détermine les niveaux, en t, de relations d'interdépendances ou de liaisons temporelles au sein de la série. Globalement, ces relations sont basées  sur des composantes tendancières (trend) ou stochastiques entre deux ou plusieurs sous-séries d'un échantillon ($X_t$).  Ainsi, se pose la question , en supposant par observation que la série à des composantes tendancière et ou  stochastique, l'odre $k$ est obtenu en identifiant la periode à patir de laquel la FAC (l'auto-corrélogramme) s'annule ($\rho(k)=0$); ainsi c'est $k$ donne les valeurs des differents $q$ qui lui sont inferieurs et qui pourront modeliser la serie en $MA(q)$:  
+
+
+
+
+
+
