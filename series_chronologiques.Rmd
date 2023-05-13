@@ -22,6 +22,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Nature des series 
 
+```{r data(UKgas), echo=FALSE}
+plot(UKgas)
+
+```
+
 ## Concepts de Base
 > **Qu'est ce qu'une série chronologique ou Time Series (TS)?**
 
@@ -68,6 +73,10 @@ NB: \textcolor{red}{Un BB est processus SSL}.
   
 Attention : si $X_t\rightsquigarrow BB\left(0,\sigma^2\right)$ $\longrightarrow$ $\rho\left(k\right)= \frac{\gamma\left(k\right)}{ \gamma\left(0\right)}$
   
+  
+> **De quoi il s'agit et si X_t n'est pas SSL**
+
+Il faut comprendre que si un processus $X_t$ n'est pas SSL, sa non stationnarité decoule du 
   
 ## Un processsus moyen Mobile  d'ordre q: MA(q)
 
@@ -140,7 +149,7 @@ De même tout processus   $MA(2)$ \textcolor{red}{est un SSL} et le FAC s'annule
 
 Pour tout $q>2$, une série $X_t $ MA(q) écrit comme suit:
 
-\begin{align}   \label{eqmaq}
+\begin{align}
 X_t   &= \mu + a_t + \theta_{2}a_{t-1} + \theta_{2}a_{t-2} + \dots +\theta_q a_{t-q}\\
       &= \mu + a_t +\Sigma^{Q}_{j=1} \theta_{j}a_{t-j}
  \intertext{où encore}
@@ -159,7 +168,73 @@ X_t   &= \mu + a_t + \theta_{2}a_{t-1} + \theta_{2}a_{t-2} + \dots +\theta_q a_{
 
 ### Sur le Plan pratique: 
 
-En générale, la modélisation d'une série chronologique des données réelles, comprise comme obéissant un processus à moyen mobile, pour comprendre et faire de la prévision requière la compréhension de la structure de ces données. En effet, une telle compréhension passe par la détermination de l'ordre $q$, indiquant le $k$ à partir duquel l'auto-corrélation entre les différentes périodes ou temps de la série univariée s'estompe ^[Comme en \eqref{eqmaq}, pour un $k>q$, la covariance ou, peu importe ici, l'auto-corrélation au sein de la série s'annule, c-à-d qu'il n'y a plus de lien en moyen mobile depassé k temps ou période entre deux plusieurs observations d'une série temporelle.]; en d'autre terme le $q$ détermine les niveaux, en t, de relations d'interdépendances ou de liaisons temporelles au sein de la série. Globalement, ces relations sont basées  sur des composantes tendancières (trend) ou stochastiques entre deux ou plusieurs sous-séries d'un échantillon ($X_t$).  Ainsi, se pose la question , en supposant par observation que la série à des composantes tendancière et ou  stochastique, l'odre $k$ est obtenu en identifiant la periode à patir de laquel la FAC (l'auto-corrélogramme) s'annule ($\rho(k)=0$); ainsi c'est $k$ donne les valeurs des differents $q$ qui lui sont inferieurs et qui pourront modeliser la serie en $MA(q)$:  
+En générale, la modélisation d'une série chronologique des données réelles, comprise comme obéissant un processus à moyen mobile, pour faire de la prévision requière la compréhension de la structure de ces données, son fonctionnement et sa mode de détermination interne ou exogène.En l'occurence ici, une telle compréhension passe par la détermination de l'ordre $q$, indiquant le $k$ à partir duquel l'auto-corrélation entre les différentes périodes ou temps de la série univariée s'estompe ^[Comme en \eqref{eqmaq}, pour un $k>q$, la covariance ou, peu importe ici, l'auto-corrélation au sein de la série s'annule, c-à-d qu'il n'y a plus de lien en moyen mobile depassé k temps ou période entre deux plusieurs observations d'une série temporelle.]; en d'autre terme le $q$ détermine les niveaux, en t, de relations d'interdépendances ou de liaisons temporelles au sein de la série. Globalement, ces relations sont basées  sur des composantes tendancières (trend) ou stochastiques entre deux ou plusieurs sous-séries d'un échantillon ($X_t$). Ainsi, se pose la question , en supposant par observation que la série à des composantes tendancière et ou  stochastique, de l'ordre $q$ ou le $k$ à partir duquel l'auto-covariances intra-observation de la série ne sont plus significatif?^[Il faut garde en tête que les séries sont considérés comme ayant des mémoire, d'où hypothétiquement il peut toujours subsister  d'influence d'une observation sur ses prochaines, qui à leur tour sur les autres prochaines même lorsque celle-ci est consideré morte.] Formellement, modéliser une série revient, signifiant par ailleurs comprendre la structure interne qui génere et lie les observation entre elle^[Parfois dit la boite noire des données], à d'abord détecter les liens causaux, mêmes partiels mais significatifs, entre plusieurs niveaux temporels d'une série ($X_t$); donc pour un $MA(Q)$ le $q$ est déterminer comme suit:
+ 
+$\left\{
+  \begin{array}{ll}
+        \rho\left( k \right) \neq 0 & \mbox{si }  1\leqslant k\leqslant q \\
+        \rho\left( k \right) = 0 & \mbox{si } k \geqslant q +1 
+    \end{array}
+\right.$
+
+
+
+En d'autre terme, et en pratique $\rho(.)$ étant l'AC de la série, il faut disposer de la FAC (auto-corrélogramme) qui donne l'AC a différentes périodes de la série pour pouvoir déterminer l’ordre $q$. Ce, au moyen de l’ équation précédente, $q$ obtenu en identifiant la période à partir de laquelle la FAC s'annule ($\rho(k)=0$); ainsi le   $k$ qui en ressort donne les valeurs des différentes $q$ qui lui sont inférieurs et qui pourront modéliser la série en $MA(q)$, l'ordre(q) s’arrête pour les valeurs auxquelles k deviendraient nuls, indiquant une faible liaison temporelles pour les $k$ supérieurs à $q$.   
+
+### Determination ou estimation des FAC: 
+
+comment avoir les $\gamma\left(k\right)$ et $\rho\left(k\right)$ ?
+
+#### Estimation de la fonction d'auto-covariance:
+
+
+Soit la fonction $\gamma\left(k\right)$ d'un processus SSL d'une suite de T observations de $X$, tel que un : 
+
+  $X_t: \lbrace X_1, X_2, \dots, X_T \rbrace$  
+  
+Et soit  la moyenne empirique de cette serie T (population):  
+
+$\bar{X}_t= \frac{1}{T}\Sigma^{T}_{j=1} X_j$
+
+L'estimateur ,$\hat{\gamma}$, (pour un échantillon) de la fonction de $\gamma$ est donnée comme suit :
+
+$\gamma \left( k \right) = E\left\lbrace \left(X_t-\mathbb{E}\left(X_t\right)\right) \left(X_{t+k}-\mathbb{E}\left(X_{t+k}\right) \right)\right\rbrace$
+  $\Longrightarrow$  $\hat{\gamma} = \frac{1}{T}\Sigma^{T-k}_{j=1} \left(X_j - \bar{X}_{T} \right) \left(X_{j+k}-\bar{X_T}\right)$, $\;\forall$ $0\leqslant k\leqslant T-1$
+
+#### Estimation de la fonction d'auto-corrélation:
+
+l'estimateur de $\rho$ ($\hat{\rho}$), désignant la FAC d'un   $X_t$ processus SSL,  est donnée comme suit:
+
+$\rho=\frac{\gamma\left(k\right)}{\gamma\left(0\right)}$ $\Longleftrightarrow$ $\hat{\rho}=\frac{\hat{\gamma}\left(k\right)}{\hat{\gamma}\left(0\right)}$  $\Longrightarrow$ $\hat{\rho(k)} =\frac{\Sigma^{T-k}_{j=1} \left(X_j - \bar{X}_{T} \right)  \left(X_{j+k}-\bar{X_T}\right)}{\Sigma^{T}_{j=1} \left(X_{j}-\bar{X_T}\right)^2}$
+
+Ainsi nous avons: 
+ 
+ * par exemple : $\hat{\rho(1)} =\frac{\Sigma^{T-1}_{j=1} \left(X_1 - \bar{X}_{T} \right) \left(X_{j+1}-\bar{X_T}\right)}{\Sigma^{T}_{j=1} \left(X_{1}-\bar{X_T}\right)^2}$
+ * Etudiant la correlation entre les ensembles $X_1$ et $X_{j+K}$, tel que : 
+   - $X_1:(x_1,x_2,\dots,x_{T-1})$
+   - $X_{j+1}:(x_2,x_2,\dots,x_{T})$
+   
+> NB: Sous Eviews, le grahph de $\hat{\rho}$, en fonction de $k$, dit corrélegramme est donnée par le programme et permet de decider de l'ordre de q, car pour un $MA(q)$, puisque $q$ se trouve être inferieur à toute les $k$ où celui-ci annule le $\hat{\rho}$, soit $\hat{\rho(k)}=0$, le $q$ qui permetrait modeliser la serie significativement est une valeur inferieure à à la premiere $k$ qui annule le $\rho$.
+
+
+## Un processus autoregressif: AR(p)
+
+Un classe des modèles de processus *Stochastique*  
+
+
+### Un AR(P=1): 
+
+
+
+
+
+
+
+
+
+
+  
+   
 
 
 
